@@ -1,11 +1,11 @@
+import Login from "./features/indentiy/components/login";
 
 function App() {
-
   return (
     <>
-      <p>پلتفرم آموزش آنلاین</p>
+      <Login />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
