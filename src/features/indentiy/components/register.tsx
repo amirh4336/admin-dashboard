@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { httpService } from "../../../core/https-server";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 type regiserInput = {
   mobile: string;
@@ -24,6 +25,8 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm<regiserInput>();
+
+  const {t} = useTranslation()
 
   const submitForm = useSubmit();
 
@@ -147,7 +150,8 @@ const Register = () => {
                   disabled={isSubmitting}
                   className="btn btn-lg btn-primary"
                 >
-                  {isSubmitting ? "در حال انجام عملیات " : "ثبت نام کنید"}
+                  {t("register.register")}
+                  {/* {isSubmitting ? "در حال انجام عملیات " : "ثبت نام کنید"} */}
                 </button>
               </div>
               {isSuccessOperation && (
