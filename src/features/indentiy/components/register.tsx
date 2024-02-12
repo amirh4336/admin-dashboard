@@ -1,6 +1,15 @@
 import logo from "@assets/images/logo.svg";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import {
+  Link,
+  useActionData,
+  useNavigate,
+  useNavigation,
+  useRouteError,
+  useSubmit,
+} from "react-router-dom";
+import { httpService } from "../../../core/https-server";
+import { useEffect } from "react";
 
 type regiserInput = {
   mobile: string;
@@ -16,9 +25,30 @@ const Register = () => {
     formState: { errors },
   } = useForm<regiserInput>();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const submitForm = useSubmit();
+
+  const onSubmit = (data: regiserInput) => {
+    const { confirmPassword, ...userData } = data;
+
+    submitForm(userData, { method: "post" });
   };
+
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state !== "idle";
+
+  const isSuccessOperation: any = useActionData();
+
+  const nvaigate = useNavigate();
+
+  useEffect(() => {
+    if (isSuccessOperation) {
+      setTimeout(() => {
+        nvaigate("/login");
+      }, 2000);
+    }
+  }, [isSuccessOperation]);
+
+  const routeErrors: any = useRouteError();
 
   return (
     <>
@@ -98,22 +128,42 @@ const Register = () => {
                   }`}
                   type="password"
                 />
-                {errors.confirmPassword && errors.confirmPassword.type === "required" && (
-                  <p className="text-danger small fw-bolder mt-1">
-                    {errors.confirmPassword?.message}
-                  </p>
-                )}
-                {errors.confirmPassword && errors.confirmPassword.type === "validate" && (
-                  <p className="text-danger small fw-bolder mt-1">
-                    {errors.confirmPassword?.message}
-                  </p>
-                )}
+                {errors.confirmPassword &&
+                  errors.confirmPassword.type === "required" && (
+                    <p className="text-danger small fw-bolder mt-1">
+                      {errors.confirmPassword?.message}
+                    </p>
+                  )}
+                {errors.confirmPassword &&
+                  errors.confirmPassword.type === "validate" && (
+                    <p className="text-danger small fw-bolder mt-1">
+                      {errors.confirmPassword?.message}
+                    </p>
+                  )}
               </div>
               <div className="text-center mt-3">
-                <button type="submit" className="btn btn-lg btn-primary">
-                  ثبت نام کنید
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="btn btn-lg btn-primary"
+                >
+                  {isSubmitting ? "در حال انجام عملیات " : "ثبت نام کنید"}
                 </button>
               </div>
+              {isSuccessOperation && (
+                <div className="alert alert-success text-success p-2 mt-3">
+                  عملیات با موفقیت انجام شد. به صفحه ورود منتقل می شوید
+                </div>
+              )}
+              {routeErrors && (
+                <div className="alert alert-danger text-danger p-2 mt-3">
+                  {routeErrors.response?.data.map((error: any, i: any) => (
+                    <p key={i} className="mb-0">
+                      {error.description}
+                    </p>
+                  ))}
+                </div>
+              )}
             </form>
           </div>
         </div>
@@ -123,3 +173,10 @@ const Register = () => {
 };
 
 export default Register;
+
+export async function registerAction({ request }: { request: any }) {
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+  const response = await httpService.post("/Users", data);
+  return response.status === 200;
+}
