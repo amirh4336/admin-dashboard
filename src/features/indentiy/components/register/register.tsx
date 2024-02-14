@@ -8,11 +8,10 @@ import {
   useRouteError,
   useSubmit,
 } from "react-router-dom";
-import { httpService } from "../../../core/https-server";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-type regiserInput = {
+type registerInput = {
   mobile: string;
   password: string;
   confirmPassword: string;
@@ -24,13 +23,13 @@ const Register = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<regiserInput>();
+  } = useForm<registerInput>();
 
   const { t } = useTranslation();
 
   const submitForm = useSubmit();
 
-  const onSubmit = (data: regiserInput) => {
+  const onSubmit = (data: registerInput) => {
     const { confirmPassword, ...userData } = data;
 
     submitForm(userData, { method: "post" });
@@ -176,10 +175,3 @@ const Register = () => {
 };
 
 export default Register;
-
-export async function registerAction({ request }: { request: any }) {
-  const formData = await request.formData();
-  const data = Object.fromEntries(formData);
-  const response = await httpService.post("/Users", data);
-  return response.status === 200;
-}
