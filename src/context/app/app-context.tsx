@@ -20,7 +20,7 @@ const AppContext = createContext<IContextType | null>(null);
 const InititalState: State = {
   language: localStorage.getItem("language") || "fa",
   theme: localStorage.getItem("theme") ||"light",
-  showSidebar: false,
+  showSidebar: true,
 };
 
 interface IAppProviderProps {

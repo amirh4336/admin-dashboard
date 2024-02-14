@@ -11,6 +11,10 @@ const ChangeLanguage = () => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setShow(false);
+  }, [context?.language]);
+
+  useEffect(() => {
     const checkIfClickOutSide = (e: any) => {
       if (show && ref.current && !ref.current.contains(e.target)) {
         setShow(false);
