@@ -19,7 +19,7 @@ const AppContext = createContext<IContextType | null>(null);
 
 const InititalState: State = {
   language: localStorage.getItem("language") || "fa",
-  theme: "light",
+  theme: localStorage.getItem("theme") ||"light",
   showSidebar: false,
 };
 
