@@ -1,11 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Sidebar from "./sidebar";
 import TopNav from "./top-nav";
 
 const MainLayout = () => {
-
+  const token = localStorage.getItem("token")
+  const navigate = useNavigate()
   const { t } = useTranslation();
+
+  if (!token) {
+    navigate("/")
+  }
   return (
     <div className="wrapper" style={{ minHeight: "100vh" }}>
       <Sidebar/>
