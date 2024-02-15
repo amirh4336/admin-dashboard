@@ -7,6 +7,9 @@ import { registerAction } from "./features/indentiy/components/register/register
 import { loginAction } from "./features/indentiy/components/login/login-action";
 import MainLayout from "./layouts/mainLayout/main-layout";
 import { coursesLoader } from "./pages/courses/courses-loader";
+import CourseCategories from "./pages/course-categories/course-categories";
+import CourseDetails from "./features/courses/components/course-details/course-details";
+import { courseDetailsLoader } from "./features/courses/components/course-details/courseDetailsLoader";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +20,15 @@ const router = createBrowserRouter([
         element: <Courses />,
         index: true,
         loader: coursesLoader,
+      },
+      {
+        path: "courses/:id",
+        element: <CourseDetails />,
+        loader: courseDetailsLoader,
+      },
+      {
+        path: "course-categories",
+        element: <CourseCategories />,
       },
     ],
   },

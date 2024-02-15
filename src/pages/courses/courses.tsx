@@ -1,6 +1,11 @@
+import { Await, useLoaderData } from "react-router-dom";
 import CourseList from "../../features/courses/components/course-list";
+import { Suspense } from "react";
+import { IDeferCourses } from "./courses-loader";
 
 const Courses = () => {
+  const data: IDeferCourses = useLoaderData() as IDeferCourses;
+  // console.log(data);
   return (
     <div className="row">
       <div className="col-12">
@@ -10,7 +15,11 @@ const Courses = () => {
             <i className="fas fa-plus ms-2"></i>افزودن دوره جدید
           </a>
         </div>
-        <CourseList />
+        <Suspense fallback={<p className="text-info">در حال بارگذاری...</p>}>
+          <Await resolve={data.courses}>
+            {(loadedCourses) => <CourseList courses={loadedCourses} />}
+          </Await>
+        </Suspense>
       </div>
     </div>
   );

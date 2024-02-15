@@ -1,13 +1,16 @@
-import { useLoaderData } from "react-router";
 import Course from "./course";
 import { ICourse } from "../../../interface/coursesData";
+import { FC } from "react";
 
-const CourseList = () => {
-  const loadedCourses: ICourse[] = useLoaderData() as ICourse[];
+interface ICoursesListProps {
+  courses: ICourse[];
+}
+
+const CourseList: FC<ICoursesListProps> = ({ courses }) => {
   return (
     <>
       <div className="row">
-        {loadedCourses.map((course) => (
+        {courses.map((course) => (
           <div className="col-12 col-md-6 col-lg-3" key={course.id}>
             <Course {...course} />
           </div>
