@@ -2,10 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "./features/indentiy/components/login/login";
 import Register from "./features/indentiy/components/register/register";
 import IdentityLayout from "./layouts/identity-layout";
-import MainLayout from "./layouts/main-layout";
-import Courses from "./pages/courses";
+import Courses from "./pages/courses/courses";
 import { registerAction } from "./features/indentiy/components/register/register-action";
 import { loginAction } from "./features/indentiy/components/login/login-action";
+import MainLayout from "./layouts/mainLayout/main-layout";
+import { coursesLoader } from "./pages/courses/courses-loader";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
       {
         element: <Courses />,
         index: true,
+        loader: coursesLoader,
       },
     ],
   },

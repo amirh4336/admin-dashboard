@@ -4,18 +4,19 @@ import Sidebar from "./sidebar";
 import TopNav from "./top-nav";
 
 const MainLayout = () => {
-  const token = localStorage.getItem("token")
-  const navigate = useNavigate()
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   if (!token) {
-    navigate("/")
+    navigate("/login", { replace: true });
   }
+
   return (
     <div className="wrapper" style={{ minHeight: "100vh" }}>
-      <Sidebar/>
+      <Sidebar />
       <div className="main">
-       <TopNav/>
+        <TopNav />
         <main className="content">
           <div className="container-fluid p-0">
             <Outlet />

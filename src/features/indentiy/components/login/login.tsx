@@ -96,11 +96,13 @@ const Login = () => {
               </div>
               {routeErrors && (
                 <div className="alert alert-danger text-danger p-2 mt-3">
-                  {routeErrors.response?.data.map((error: any) => (
-                    <p className="mb-0">
-                      {t(`login.validation.${error.code}`)}
-                    </p>
-                  ))}
+                  {routeErrors.response?.data.map(
+                    (error: any, index: number) => (
+                      <p className="mb-0" key={index}>
+                        {t(`login.validation.${error.code}`)}
+                      </p>
+                    )
+                  )}
                 </div>
               )}
             </form>
