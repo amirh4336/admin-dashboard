@@ -1,6 +1,8 @@
 import { FC } from "react";
-import  "./style.css";
+import "./style.css";
+import { Link } from "react-router-dom";
 interface ICourseProps {
+  id: number;
   title: string;
   coverImageUrl: string;
   courseLevel: string;
@@ -10,6 +12,7 @@ interface ICourseProps {
 }
 
 const Course: FC<ICourseProps> = ({
+  id,
   title,
   coverImageUrl,
   courseLevel,
@@ -23,7 +26,9 @@ const Course: FC<ICourseProps> = ({
 
       <div className="card-header px-4 pt-4 pb-0">
         <div className="badge bg-primary my-2 fw-bolder">{courseLevel}</div>
-        <h4 className="mb-0">{title}</h4>
+        <h4 className="mb-0">
+          <Link to={`/courses/${id}`}>{title}</Link>
+        </h4>
       </div>
       <div className="card-body px-4 pt-2 mt-auto d-block">
         <p className="truncate-three-lines mb-0">{description}</p>

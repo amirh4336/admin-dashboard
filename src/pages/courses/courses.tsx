@@ -5,7 +5,6 @@ import { IDeferCourses } from "./courses-loader";
 
 const Courses = () => {
   const data: IDeferCourses = useLoaderData() as IDeferCourses;
-  // console.log(data);
   return (
     <div className="row">
       <div className="col-12">
