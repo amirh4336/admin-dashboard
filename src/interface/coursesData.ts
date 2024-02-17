@@ -13,3 +13,11 @@ export interface ICourse {
   numOfReviews: number;
   basePrice: number;
 }
+
+export interface ICategory {
+  totalRecords: number;
+  data: {
+    id: number;
+    name: string;
+  }[];
+}

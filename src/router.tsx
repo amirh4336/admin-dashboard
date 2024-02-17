@@ -10,6 +10,7 @@ import { coursesLoader } from "./pages/courses/courses-loader";
 import CourseCategories from "./pages/course-categories/course-categories";
 import CourseDetails from "./features/courses/components/course-details/course-details";
 import { courseDetailsLoader } from "./features/courses/components/course-details/courseDetailsLoader";
+import { categoriesLoader } from "./pages/course-categories/categories-loader";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       {
         path: "course-categories",
         element: <CourseCategories />,
+        loader: categoriesLoader,
       },
     ],
   },
