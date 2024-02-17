@@ -1,5 +1,8 @@
 import { FC } from "react";
 import { ICategory } from "../../../interface/coursesData";
+import Pagination from "../../../components/pagination";
+import { useNavigation } from "react-router-dom";
+import Spinner from "../../../components/spinner";
 
 interface ICategoryListProps {
   categories: ICategory;
@@ -8,11 +11,19 @@ interface ICategoryListProps {
 const CategoryList: FC<ICategoryListProps> = ({
   categories: { data, totalRecords },
 }) => {
+  const navigation = useNavigation();
+
   return (
     <>
       <div className="row">
         <div className="col-12">
           <div className="card">
+            {navigation.state !== "idle" && (
+              <div className="d-flex justify-content-center align-items-center position-absolute w-100 h-100 bg-light bg-opacity-50">
+                <Spinner />
+              </div>
+            )}
+
             <table className="table table-striped">
               <thead>
                 <tr>
@@ -61,6 +72,9 @@ const CategoryList: FC<ICategoryListProps> = ({
                 })}
               </tbody>
             </table>
+            <div className="card-footer">
+              <Pagination totalRecords={totalRecords} />
+            </div>
           </div>
         </div>
       </div>

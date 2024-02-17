@@ -6,8 +6,6 @@ import { IDefercategories } from "./categories-loader";
 const CourseCategories = () => {
   const data: IDefercategories = useLoaderData() as IDefercategories;
 
-  console.log(data);
-
   return (
     <div className="row">
       <div className="col-12">
