@@ -1,9 +1,11 @@
 import { Suspense, useState } from "react";
-import { Await, useLoaderData , useNavigate } from "react-router";
+import { Await, useLoaderData, useNavigate } from "react-router";
 import CategoryList from "../../features/categories/components/category-list";
 import { IDefercategories } from "./categories-loader";
 import Modal from "../../components/modal";
 import { httpInterceptedService } from "../../core/https-server";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const CourseCategories = () => {
   const data: IDefercategories = useLoaderData() as IDefercategories;
@@ -11,22 +13,41 @@ const CourseCategories = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number>();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const deleteCategory = (categoryId : number) => {
+  const deleteCategory = (categoryId: number) => {
     setSelectedCategory(categoryId);
     setShowDeleteModal(true);
-  }
+  };
 
   const handleDeleteCategory = async () => {
     setShowDeleteModal(false);
-    const response = await httpInterceptedService.delete(`/CourseCategory/${selectedCategory}`);
 
-    if (response.status === 200) {
-      const url = new URL(window.location.href);
-      navigate(url.pathname + url.search);
-    }
-
-  }
+    const response = httpInterceptedService.delete(
+      `/CourseCategory/${selectedCategory}`
+    );
+    toast.promise(
+      response,
+      {
+        pending: "در حال حذف ...",
+        success: {
+          render() {
+            const url = new URL(window.location.href);
+            navigate(url.pathname + url.search);
+            return "عملیات با موفقیت انجام شد";
+          },
+        },
+        error: {
+          render() {
+            return t("categoryList." + "DeleteIsNotPossible");
+          },
+        },
+      },
+      {
+        position: "bottom-left",
+      }
+    );
+  };
 
   return (
     <>
@@ -43,7 +64,10 @@ const CourseCategories = () => {
           >
             <Await resolve={data.categories}>
               {(loadedCategories) => (
-                <CategoryList deleteCategory={deleteCategory}  categories={loadedCategories} />
+                <CategoryList
+                  deleteCategory={deleteCategory}
+                  categories={loadedCategories}
+                />
               )}
             </Await>
           </Suspense>
@@ -62,7 +86,11 @@ const CourseCategories = () => {
         >
           انصراف
         </button>
-        <button type="button" className="btn btn-primary fw-bolder" onClick={handleDeleteCategory}>
+        <button
+          type="button"
+          className="btn btn-primary fw-bolder"
+          onClick={handleDeleteCategory}
+        >
           حذف
         </button>
       </Modal>
