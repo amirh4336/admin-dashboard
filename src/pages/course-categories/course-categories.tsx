@@ -1,13 +1,32 @@
 import { Suspense, useState } from "react";
-import { Await, useLoaderData } from "react-router";
+import { Await, useLoaderData , useNavigate } from "react-router";
 import CategoryList from "../../features/categories/components/category-list";
 import { IDefercategories } from "./categories-loader";
 import Modal from "../../components/modal";
+import { httpInterceptedService } from "../../core/https-server";
 
 const CourseCategories = () => {
   const data: IDefercategories = useLoaderData() as IDefercategories;
 
-  const [showDeleteModal, setShowDeleteModal] = useState(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<number>();
+  const navigate = useNavigate();
+
+  const deleteCategory = (categoryId : number) => {
+    setSelectedCategory(categoryId);
+    setShowDeleteModal(true);
+  }
+
+  const handleDeleteCategory = async () => {
+    setShowDeleteModal(false);
+    const response = await httpInterceptedService.delete(`/CourseCategory/${selectedCategory}`);
+
+    if (response.status === 200) {
+      const url = new URL(window.location.href);
+      navigate(url.pathname + url.search);
+    }
+
+  }
 
   return (
     <>
@@ -24,7 +43,7 @@ const CourseCategories = () => {
           >
             <Await resolve={data.categories}>
               {(loadedCategories) => (
-                <CategoryList categories={loadedCategories} />
+                <CategoryList deleteCategory={deleteCategory}  categories={loadedCategories} />
               )}
             </Await>
           </Suspense>
@@ -43,7 +62,7 @@ const CourseCategories = () => {
         >
           انصراف
         </button>
-        <button type="button" className="btn btn-primary fw-bolder">
+        <button type="button" className="btn btn-primary fw-bolder" onClick={handleDeleteCategory}>
           حذف
         </button>
       </Modal>
