@@ -6,10 +6,11 @@ import Modal from "../../components/modal";
 import { httpInterceptedService } from "../../core/https-server";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import AddOrUpdateCategory from "../../features/categories/components/add-or-update-category";
 
 const CourseCategories = () => {
   const data: IDefercategories = useLoaderData() as IDefercategories;
-
+  const [showAddCategory, setShowAddCategory] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<number>();
   const navigate = useNavigate();
@@ -55,10 +56,13 @@ const CourseCategories = () => {
         <div className="col-12">
           <div className="d-flex align-items-center justify-content-between mb-5">
             <h3 className="mb-0">دسته بندی دوره ها</h3>
-            <a href="#" className="btn btn-primary fw-bolder  mt-n1">
+            <a onClick={() => setShowAddCategory(true)} className="btn btn-primary fw-bolder  mt-n1">
               <i className="fas fa-plus ms-2"></i>افزودن دسته جدید
             </a>
           </div>
+          {showAddCategory && (
+            <AddOrUpdateCategory setShowAddCategory={setShowAddCategory} />
+          )}
           <Suspense
             fallback={<p className="text-info">در حال دریافت اطلاعات ...</p>}
           >

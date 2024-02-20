@@ -7,7 +7,7 @@ interface IPaginationProps {
   pageSize?: number;
 }
 
-const Pagination: FC<IPaginationProps> = ({ totalRecords, pageSize = import.meta.env.PAGE_SIZE }) => {
+const Pagination: FC<IPaginationProps> = ({ totalRecords, pageSize = import.meta.env.VITE_PAGE_SIZE }) => {
   const pages = Math.ceil(totalRecords / pageSize);
   const [searchParams, setSearchParams] = useSearchParams();
 
