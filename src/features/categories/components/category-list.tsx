@@ -3,17 +3,22 @@ import { ICategory } from "../../../interface/coursesData";
 import Pagination from "../../../components/pagination";
 import { useNavigation } from "react-router-dom";
 import Spinner from "../../../components/spinner";
+import useCategoryContext from "../category-context/useCategoryContext";
 
 interface ICategoryListProps {
   categories: ICategory;
-  deleteCategory: (categoryId: number) => void
+  deleteCategory: (categoryId: number) => void;
 }
 
 const CategoryList: FC<ICategoryListProps> = ({
   categories: { data, totalRecords },
-  deleteCategory
+  deleteCategory,
 }) => {
   const navigation = useNavigation();
+
+  const { setCategory } = useCategoryContext();
+
+  console.log(setCategory);
 
   return (
     <>
@@ -39,7 +44,10 @@ const CategoryList: FC<ICategoryListProps> = ({
                     <tr key={category.id}>
                       <td>{category.name}</td>
                       <td className="table-action">
-                        <a className="ms-3">
+                        <a
+                          onClick={() => setCategory && setCategory(category)}
+                          className="ms-3"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"

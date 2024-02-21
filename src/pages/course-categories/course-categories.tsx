@@ -7,6 +7,7 @@ import { httpInterceptedService } from "../../core/https-server";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import AddOrUpdateCategory from "../../features/categories/components/add-or-update-category";
+import useCategoryContext from "../../features/categories/category-context/useCategoryContext";
 
 const CourseCategories = () => {
   const data: IDefercategories = useLoaderData() as IDefercategories;
@@ -15,6 +16,8 @@ const CourseCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState<number>();
   const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const catContext = useCategoryContext() ;
 
   const deleteCategory = (categoryId: number) => {
     setSelectedCategory(categoryId);
@@ -60,7 +63,7 @@ const CourseCategories = () => {
               <i className="fas fa-plus ms-2"></i>افزودن دسته جدید
             </a>
           </div>
-          {showAddCategory && (
+          {(showAddCategory || catContext.category)  && (
             <AddOrUpdateCategory setShowAddCategory={setShowAddCategory} />
           )}
           <Suspense

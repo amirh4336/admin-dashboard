@@ -2,8 +2,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { httpInterceptedService } from "../../../core/https-server";
+import useCategoryContext from "../category-context/useCategoryContext";
 
 interface IAddOrUpdateCategory {
   setShowAddCategory: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,12 +14,22 @@ const AddOrUpdateCategory: FC<IAddOrUpdateCategory> = ({
   setShowAddCategory,
 }) => {
   const navigate = useNavigate();
+  const {category, setCategory} = useCategoryContext();
   const { t } = useTranslation();
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
+
+
+  useEffect(() => {
+    if (category) {
+        setValue('name', category.name);
+        setValue('id', category.id);
+    }
+  }, [category , setValue]);
 
   const onSubmit = (data: any) => {
     const response = httpInterceptedService.post(`/CourseCategory/`, data);
@@ -50,6 +61,11 @@ const AddOrUpdateCategory: FC<IAddOrUpdateCategory> = ({
     );
   };
 
+  const onClose = () => {
+    setCategory && setCategory(null);
+    setShowAddCategory(false);
+  }
+
   return (
     <div className="card">
       <div className="card-body">
@@ -72,7 +88,7 @@ const AddOrUpdateCategory: FC<IAddOrUpdateCategory> = ({
             <button
               type="button"
               className="btn btn-lg btn-secondary ms-2"
-              onClick={() => setShowAddCategory(false)}
+              onClick={onClose}
             >
               بستن
             </button>
