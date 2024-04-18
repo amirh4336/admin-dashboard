@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 
 type loginInputs = {
-  mobile: string;
+  phone: string;
   password: string;
 };
 
@@ -56,15 +56,15 @@ const Login = () => {
                 <label className="form-label">{t("login.mobile")}</label>
                 <input
                   className={`form-control form-control-lg ${
-                    errors.mobile && "is-invalid"
+                    errors.phone && "is-invalid"
                   }`}
-                  {...register("mobile", {
+                  {...register("phone", {
                     required: true,
                     minLength: 11,
                     maxLength: 11,
                   })}
                 />
-                {errors.mobile && errors.mobile.type === "required" && (
+                {errors.phone && errors.phone.type === "required" && (
                   <p className="text-danger small fw-bolder mt-1">
                     {t("login.validation.mobileRequired")}
                   </p>
@@ -74,7 +74,7 @@ const Login = () => {
                 <label className="form-label">{t("login.password")}</label>
                 <input
                   className={`form-control form-control-lg ${
-                    errors.mobile && "is-invalid"
+                    errors.phone && "is-invalid"
                   }`}
                   type="password"
                   {...register("password", { required: true })}

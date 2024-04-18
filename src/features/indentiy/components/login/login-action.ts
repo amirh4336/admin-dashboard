@@ -6,6 +6,7 @@ import { httpService } from "../../../../core/https-server";
  * @param {Object} params - The parameters for the login action
  * @param {Object} params.request - The request object containing the user's login data
  */
+
 export async function loginAction({ request }: { request: any }) {
   // Get form data from the request
   const formData = await request.formData();
@@ -14,8 +15,8 @@ export async function loginAction({ request }: { request: any }) {
   const data = Object.fromEntries(formData);
   
   // Send login data to the server and handle the response
-  const response = await httpService.post("/Users/login", data);
-  
+  const response = await httpService.post("/admin/login", data);
+
   // If the login is successful, store the token and redirect to the home page
   if (response.status === 200) {
     localStorage.setItem("token", response?.data.token);
