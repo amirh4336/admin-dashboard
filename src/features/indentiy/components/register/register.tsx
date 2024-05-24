@@ -15,6 +15,7 @@ type registerInput = {
   mobile: string;
   password: string;
   confirmPassword: string;
+  image: File;
 };
 
 const Register = () => {
@@ -32,7 +33,12 @@ const Register = () => {
   const onSubmit = (data: registerInput) => {
     const { confirmPassword, ...userData } = data;
 
-    submitForm(userData, { method: "post" });
+    const formData = new FormData();
+    formData.append("mobile" , userData.mobile)
+    formData.append("password" , userData.password)
+    formData.append("image" , userData.image)
+
+    submitForm(formData, { method: "post" });
   };
 
   const navigation = useNavigation();
@@ -142,6 +148,23 @@ const Register = () => {
                       {errors.confirmPassword?.message}
                     </p>
                   )}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">{t("register.image")}</label>
+                <input
+                  {...register("image", {
+                    required: t("register.validation.imageRequired"),
+                  })}
+                  className={`form-control form-control-lg ${
+                    errors.image && "is-invalid"
+                  }`}
+                  type="file"
+                />
+                {errors.image && errors.image.type === "required" && (
+                  <p className="text-danger small fw-bolder mt-1">
+                    {t("register.validation.imageRequired")}
+                  </p>
+                )}
               </div>
               <div className="text-center mt-3">
                 <button
