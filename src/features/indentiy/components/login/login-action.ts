@@ -17,9 +17,11 @@ export async function loginAction({ request }: { request: any }) {
   // Send login data to the server and handle the response
   const response = await httpService.post("/admin/login", data);
 
+  console.log(response);
   // If the login is successful, store the token and redirect to the home page
   if (response.status === 200) {
     localStorage.setItem("token", response?.data.token);
     return redirect("/");
   }
+  // return redirect("/");
 }

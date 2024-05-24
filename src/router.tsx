@@ -2,11 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "./features/indentiy/components/login/login";
 import Register from "./features/indentiy/components/register/register";
 import IdentityLayout from "./layouts/identity-layout";
-import Courses from "./pages/courses/courses";
+import Cafe from "./pages/cafe/cafe";
 import { registerAction } from "./features/indentiy/components/register/register-action";
 import { loginAction } from "./features/indentiy/components/login/login-action";
 import MainLayout from "./layouts/mainLayout/main-layout";
-import { coursesLoader } from "./pages/courses/courses-loader";
+import { cafeLoader } from "./pages/cafe/cafe-loader";
 import CourseCategories from "./pages/course-categories/course-categories";
 import CourseDetails from "./features/courses/components/course-details/course-details";
 import { courseDetailsLoader } from "./features/courses/components/course-details/courseDetailsLoader";
@@ -22,9 +22,9 @@ const router = createBrowserRouter([
     errorElement: <UnhandledException />,
     children: [
       {
-        element: <Courses />,
+        element: <Cafe />,
         index: true,
-        loader: coursesLoader,
+        // loader: cafeLoader,
       },
       {
         path: "courses/:id",

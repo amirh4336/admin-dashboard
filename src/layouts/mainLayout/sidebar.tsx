@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import logo from "@assets/images/logo.svg";
+// import logo from "@assets/images/logo.svg";
 import { NavLink } from "react-router-dom";
 import { useAppContext } from "../../context/app/app-context";
 
@@ -10,8 +10,8 @@ const Sidebar = () => {
     <nav className={`sidebar ${!showSidebar ? "collapsed" : ""}`}>
       <div className="sidebar-content">
         <a className="sidebar-brand d-flex flex-column align-items-center pt-0 mb-0">
-          <img src={logo} style={{ height: "80px" }} />
-          <p className="mb-0" style={{ fontSize: "90%" }}>
+          {/* <img src={logo} style={{ height: "80px" }} /> */}
+          <p className="mb-0 mt-4" style={{ fontSize: "90%" }}>
             {t("mainLayout.sidebar.subtitle")}
           </p>
         </a>

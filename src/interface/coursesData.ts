@@ -1,17 +1,22 @@
-export interface ICourse {
-  id: number;
-  createdAt: string;
-  title: string;
-  duration: number;
-  courseCategory: string;
-  courseLevel: string;
+export interface ICafe {
+  _id: string;
+  name: string;
   description: string;
-  coverImageUrl: string;
-  numOfChapters: number;
-  numOfLectures: number;
-  averageReviewRating: number;
-  numOfReviews: number;
-  basePrice: number;
+  address: number;
+  phone: string;
+  capacity: string;
+  image: string;
+  menu: IFood[];
+  owner: string;
+}
+
+export interface  IFood {
+  _id: string;
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+  cafe: string
 }
 
 export interface ICategory {
