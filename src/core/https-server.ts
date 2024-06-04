@@ -13,6 +13,7 @@ const httpInterceptedService = axios.create({
 httpInterceptedService.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem("token");
+    console.log(token);
     if (token) {
       config.headers = {
         ...config.headers,
