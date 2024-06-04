@@ -6,14 +6,13 @@ import Cafe from "./pages/cafe/cafe";
 // import { registerAction } from "./features/indentiy/components/register/register-action";
 import { loginAction } from "./features/indentiy/components/login/login-action";
 import MainLayout from "./layouts/mainLayout/main-layout";
-import { cafeLoader } from "./pages/cafe/cafe-loader";
-import CourseCategories from "./pages/course-categories/course-categories";
-import CourseDetails from "./features/courses/components/course-details/course-details";
-import { courseDetailsLoader } from "./features/courses/components/course-details/courseDetailsLoader";
-import { categoriesLoader } from "./pages/course-categories/categories-loader";
-import CategoryProvider from "./features/categories/category-context/category-context";
+// import { cafeLoader } from "./pages/cafe/cafe-loader";
+// import CourseCategories from "./pages/course-categories/course-categories";
+// import { categoriesLoader } from "./pages/course-categories/categories-loader";
+// import CategoryProvider from "./features/categories/category-context/category-context";
 import UnhandledException from "./pages/unhandled-exception";
 import NotFound from "./pages/not-found";
+import Food from "./pages/food/food";
 
 const router = createBrowserRouter([
   {
@@ -27,19 +26,18 @@ const router = createBrowserRouter([
         // loader: cafeLoader,
       },
       {
-        path: "courses/:id",
-        element: <CourseDetails />,
-        loader: courseDetailsLoader,
+        path: "cafe/food/:id",
+        element: <Food />,
       },
-      {
-        path: "course-categories",
-        element: (
-          <CategoryProvider>
-            <CourseCategories />
-          </CategoryProvider>
-        ),
-        loader: categoriesLoader,
-      },
+      // {
+      //   path: "course-categories",
+      //   element: (
+      //     <CategoryProvider>
+      //       <CourseCategories />
+      //     </CategoryProvider>
+      //   ),
+      //   loader: categoriesLoader,
+      // },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import ChangeLanguage from "../../components/change-language";
+// import ChangeLanguage from "../../components/change-language";
 import ChangeTheme from "../../components/change-theme";
 import { useAppContext } from "../../context/app/app-context";
 
@@ -19,7 +19,7 @@ const TopNav = () => {
         <i className="hamburger align-self-center"></i>
       </a>
       <div className="d-flex align-items-center gap-3">
-        <ChangeLanguage />
+        {/* <ChangeLanguage /> */}
         <ChangeTheme />
       </div>
       <div className={`${language === "fa" ? "me-auto" : "ms-auto"}`}>
