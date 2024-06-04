@@ -44,19 +44,30 @@ function CreateCafeModal() {
 
   const onSubmit = async (data: registerInput) => {
     const formData = new FormData();
+    formData.append("image", data.image[0]);
     formData.append("name", data.name);
     formData.append("phone", data.phone);
     formData.append("description", data.description);
     formData.append("address", data.address);
     formData.append("capacity", data.capacity);
-    formData.append("image", data.image[0]);
-
     let response;
     setIsLoadingReq(true)
     try {
       response = await httpInterceptedService.post("/cafes/create", formData);
     } catch (error) {
       console.log(error);
+      const notifyError = () =>
+        toast.error("مشکلی پیش آمده.", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+        notifyError()
     }finally {
       setIsLoadingReq(false)
     }

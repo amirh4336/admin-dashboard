@@ -13,11 +13,13 @@ const httpInterceptedService = axios.create({
 httpInterceptedService.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       config.headers = {
         ...config.headers,
-        "Content-Type": "application/json",
+        "Content-Type":
+          config.data instanceof FormData
+            ? "multipart/form-data"
+            : "application/json",
         Accept: "application/json",
         authorization: `Bearer ${token}`,
       } as unknown as AxiosRequestHeaders; // Explicitly type config.headers as AxiosRequestHeaders

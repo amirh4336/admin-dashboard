@@ -5,6 +5,7 @@ import { useQuery , useQueryClient } from "@tanstack/react-query";
 import { httpInterceptedService } from "../../core/https-server";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import CafeCard from './components/cafeCard'
 
 const Cafe = () => {
   const userId = localStorage.getItem("userData");
@@ -31,8 +32,7 @@ const Cafe = () => {
   const deleteCafe = async () => {
     setIsLoadingReq(true)
     try {
-      const res = await httpInterceptedService.delete(`/cafes/${data?.data._id}`)
-      console.log(res.status);
+      await httpInterceptedService.delete(`/cafes/${data?.data._id}`)
       // @ts-expect-error test
       queryClient.invalidateQueries(["cafe"]);
       notify()
@@ -65,7 +65,7 @@ const Cafe = () => {
         ) : !data?.data._id ? (
           <p>کافه ای وجود ندارد.</p>
         ) : (
-          <></>
+          <CafeCard data={data.data} />
         )}
         <Suspense fallback={<p className="text-info">در حال بارگذاری...</p>}>
           {/* <Await resolve={data.cafe}>

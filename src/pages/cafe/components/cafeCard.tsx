@@ -1,7 +1,15 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { ICafe } from '../../../interface/coursesData';
+import { FC } from 'react';
 
-function CafeCard() {
+type CafeCardProps = {
+  data: ICafe
+}
+
+
+const CafeCard :FC<CafeCardProps> = ({data}) => {
+  console.log(data);
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img variant="top" src="holder.js/100px180" />
