@@ -3,7 +3,7 @@ import Login from "./features/indentiy/components/login/login";
 import Register from "./features/indentiy/components/register/register";
 import IdentityLayout from "./layouts/identity-layout";
 import Cafe from "./pages/cafe/cafe";
-import { registerAction } from "./features/indentiy/components/register/register-action";
+// import { registerAction } from "./features/indentiy/components/register/register-action";
 import { loginAction } from "./features/indentiy/components/login/login-action";
 import MainLayout from "./layouts/mainLayout/main-layout";
 import { cafeLoader } from "./pages/cafe/cafe-loader";
@@ -54,7 +54,6 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
-        action: registerAction,
         errorElement: <Register />,
       },
     ],

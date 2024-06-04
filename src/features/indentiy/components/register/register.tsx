@@ -6,16 +6,19 @@ import {
   useNavigate,
   useNavigation,
   useRouteError,
-  useSubmit,
 } from "react-router-dom";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { httpService } from "../../../../core/https-server";
 
 type registerInput = {
+  fullName: string;
+  certificateId: string;
+  email: string;
   mobile: string;
   password: string;
   confirmPassword: string;
-  image: File;
+  image: File[];
 };
 
 const Register = () => {
@@ -27,18 +30,26 @@ const Register = () => {
   } = useForm<registerInput>();
 
   const { t } = useTranslation();
-
-  const submitForm = useSubmit();
-
-  const onSubmit = (data: registerInput) => {
+  const onSubmit = async (data: registerInput) => {
     const { confirmPassword, ...userData } = data;
-
     const formData = new FormData();
-    formData.append("mobile" , userData.mobile)
-    formData.append("password" , userData.password)
-    formData.append("image" , userData.image)
+    formData.append("phone", userData.mobile);
+    formData.append("fullName", userData.fullName);
+    formData.append("certificateId", userData.certificateId);
+    formData.append("email", userData.email);
+    formData.append("password", userData.password);
+    formData.append("image", userData.image[0]);
 
-    submitForm(formData, { method: "post" });
+    let response;
+    try {
+      response = await httpService.post("/admin/signup", formData);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(response?.status);
+    if (response?.status === 201) {
+      nvaigate("/login");
+    }
   };
 
   const navigation = useNavigation();
@@ -75,7 +86,58 @@ const Register = () => {
       <div className="card">
         <div className="card-body">
           <div className="m-sm-4">
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
+              <div className="mb-3">
+                <label className="form-label">{t("register.fullName")}</label>
+                <input
+                  {...register("fullName", {
+                    required: t("register.validation.fullNameRequired"),
+                  })}
+                  className={`form-control form-control-lg ${
+                    errors.fullName && "is-invalid"
+                  }`}
+                />
+                {errors.fullName && errors.fullName.type === "required" && (
+                  <p className="text-danger small fw-bolder mt-1">
+                    {t("register.validation.fullNameRequired")}
+                  </p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">{t("register.email")}</label>
+                <input
+                  {...register("email", {
+                    required: t("register.validation.emailRequired"),
+                  })}
+                  className={`form-control form-control-lg ${
+                    errors.email && "is-invalid"
+                  }`}
+                />
+                {errors.email && errors.email.type === "required" && (
+                  <p className="text-danger small fw-bolder mt-1">
+                    {t("register.validation.emailRequired")}
+                  </p>
+                )}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">
+                  {t("register.certificateId")}
+                </label>
+                <input
+                  {...register("certificateId", {
+                    required: t("register.validation.certificateIdRequired"),
+                  })}
+                  className={`form-control form-control-lg ${
+                    errors.certificateId && "is-invalid"
+                  }`}
+                />
+                {errors.certificateId &&
+                  errors.certificateId.type === "required" && (
+                    <p className="text-danger small fw-bolder mt-1">
+                      {t("register.validation.certificateIdRequired")}
+                    </p>
+                  )}
+              </div>
               <div className="mb-3">
                 <label className="form-label">{t("register.mobile")}</label>
                 <input
@@ -159,6 +221,7 @@ const Register = () => {
                     errors.image && "is-invalid"
                   }`}
                   type="file"
+                  accept=".jpg, .jpeg, .png"
                 />
                 {errors.image && errors.image.type === "required" && (
                   <p className="text-danger small fw-bolder mt-1">
