@@ -4,7 +4,11 @@ import "./core/i18n";
 import { useAppContext } from "./context/app/app-context";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
+
+
+const newQC = new QueryClient();
 
 function App() {
   const { theme } = useAppContext() || {};
@@ -23,19 +27,21 @@ function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
-      <ToastContainer
-        position="bottom-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      <QueryClientProvider client={newQC}>
+        <RouterProvider router={router} />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      </QueryClientProvider>
     </>
   );
 }

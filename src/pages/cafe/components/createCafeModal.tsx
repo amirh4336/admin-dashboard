@@ -4,7 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import { useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa6";
 import { httpInterceptedService } from "../../../core/https-server";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import { useQueryClient } from "@tanstack/react-query";
 import "react-toastify/dist/ReactToastify.css";
 
 type registerInput = {
@@ -18,6 +19,8 @@ type registerInput = {
 
 function CreateCafeModal() {
   const [show, setShow] = useState(false);
+  const [isLoadingReq, setIsLoadingReq] = useState(false);
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -49,12 +52,18 @@ function CreateCafeModal() {
     formData.append("image", data.image[0]);
 
     let response;
+    setIsLoadingReq(true)
     try {
       response = await httpInterceptedService.post("/cafes/create", formData);
     } catch (error) {
       console.log(error);
+    }finally {
+      setIsLoadingReq(false)
     }
     if (response?.status === 201) {
+      // @ts-expect-error test
+      queryClient.invalidateQueries(["cafe"]);
+      handleClose();
       notify();
     }
   };
@@ -178,19 +187,15 @@ function CreateCafeModal() {
                 </p>
               )}
             </div>
-            <div className="text-center mt-3">
-              {/* <button
-                type="submit"
-                disabled={isSubmitting}
-                className="btn btn-lg btn-primary"
-              >
-                {isSubmitting ? t("register.saving") : t("register.register")}
-              </button> */}
+            <div className="text-center d-flex justify-content-between mt-3">
               <Button variant="secondary" onClick={handleClose}>
                 بستن
               </Button>
-              <Button variant="primary" type="submit" onClick={handleClose}>
-                ایجاد
+              <Button variant="primary" type="submit">
+                {
+                  isLoadingReq ?<span>درحال انجام...</span> : "ایجاد"
+                }
+                
               </Button>
             </div>
             {/* {isSuccessOperation && (
